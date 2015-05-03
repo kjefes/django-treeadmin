@@ -359,7 +359,7 @@ class TreeAdmin(admin.ModelAdmin):
         """
         if self.enable_object_permissions:
             opts = self.opts
-            r = request.user.has_perm(opts.app_label + '.' + opts.get_change_permission(), obj)
+            r = request.user.has_perm(opts.app_label + '.' + ("change" if "change" in opts.permissions), obj)
         else:
             r = True
 
@@ -372,7 +372,7 @@ class TreeAdmin(admin.ModelAdmin):
         """
         if self.enable_object_permissions:
             opts = self.opts
-            r = request.user.has_perm(opts.app_label + '.' + opts.get_delete_permission(), obj)
+            r = request.user.has_perm(opts.app_label + '.' + ("delete" if "delete" in opts.permissions), obj)
         else:
             r = True
 
