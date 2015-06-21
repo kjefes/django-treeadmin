@@ -80,7 +80,7 @@ def ajax_editable_boolean_cell(item, attr, text='', override=None):
     (useful for "disabled and you can't change it" situations).
     """
     if text:
-        text = '&nbsp;(%s)' % unicode(text)
+        text = '&nbsp;(%s)' % str(text)
 
     if override is not None:
         a = [ django_boolean_icon(override, text), text ]
@@ -96,7 +96,7 @@ def ajax_editable_boolean_cell(item, attr, text='', override=None):
 
     a.insert(0, '<div id="wrap_%s_%d">' % ( attr, item.id ))
     a.append('</div>')
-    return unicode(''.join(a))
+    return str(''.join(a))
 
 # ------------------------------------------------------------------------
 def ajax_editable_boolean(attr, short_description):
@@ -107,7 +107,7 @@ def ajax_editable_boolean(attr, short_description):
     Example::
 
         class MyTreeAdmin(TreeAdmin):
-            list_display = ('__unicode__', 'active_toggle')
+            list_display = ('__str__', 'active_toggle')
 
             active_toggle = ajax_editable_boolean('active', _('is active'))
     """
@@ -216,7 +216,7 @@ class TreeAdmin(admin.ModelAdmin):
         if hasattr(item, 'short_title') and callable(item.short_title):
             r += item.short_title()
         else:
-            r += unicode(item)
+            r += str(item)
         #        r += '</span>'
         return mark_safe(r)
     indented_short_title.short_description = _('title')
@@ -390,7 +390,7 @@ class TreeAdmin(admin.ModelAdmin):
             try:
                 self.model._tree_manager.move_node(cut_item, pasted_on, position)
             except InvalidMove as e:
-                self.message_user(request, unicode(e))
+                self.message_user(request, str(e))
                 return HttpResponse('FAIL')
 
             # Ensure that model save has been run
